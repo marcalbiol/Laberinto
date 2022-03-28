@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// TODO SOLUCIONAR BUG AL INTRODUCIR DATOS. (DO WHILE)    SOLUCIONADO
 public class Laberinto {
     public static final char WALL = '▒';
     public static final char JUGADOR = 'J';
@@ -22,24 +21,22 @@ public class Laberinto {
     public static void main(String[] args) throws FileNotFoundException {
         Scanner teclado = new Scanner(System.in);
         // elementos del laberinto
-        // ALIEN
-        int[] surrogates = {0xD83D, 0xDC7D};
-        String alienEmojiString = new String(surrogates, 0, surrogates.length);
-        System.out.println(alienEmojiString);
-        //ALIEN
-        int cantidadPartidas = 0;
         Level nivel = null;
         System.out.println("Cuantas partidas vas a jugar : ");
         int partidas = teclado.nextInt();
+
+        // arraylist donde se guardaran los resultados
         ArrayList<Datos> resultados = new ArrayList<>();
         boolean playing = true;
+
+        // indica cuando termina la partida + variables para los resultados finales
         boolean gameEnd = false;
         int remainingMov = 0;
+        int cantidadPartidas = 0;
 
         // MENU
         while (playing) {
             String menu;
-            // TODO pasar variables a char para que cuandro introduzca una letra no pete el programa
             do {
                 System.out.println("Elige que desea hacer : \n"
                         + "1. Jugar \n"
@@ -48,8 +45,8 @@ public class Laberinto {
                 menu = teclado.next();
             } while ((menu.equalsIgnoreCase("1") && menu.equalsIgnoreCase("2")
                     && menu.equalsIgnoreCase("3")) && partidas != 0);
-
             gameEnd = true;
+
             String dificultad;
             switch (menu) {
                 case "1":
@@ -61,8 +58,8 @@ public class Laberinto {
                     } while (!(dificultad.equalsIgnoreCase("1") || dificultad.equalsIgnoreCase("2") || dificultad.equalsIgnoreCase("3")));
 
                     // Variables de movimiento en el laberinto
-                    // TODO CAMBIAR NOMBRE VARIABLES = ENG
                     boolean laberintoSalida = true;
+                    // parte especial
                     boolean doors = false;
                     //posicion jugador
                     int movColumna = 0;
@@ -292,11 +289,7 @@ public class Laberinto {
         escribirFichero(resultados);
     }
 
-
     public static void escribirFichero(ArrayList<Datos> resultados) throws FileNotFoundException {
-        // Guarda los datos de la array en el fichero
-
-
         PrintWriter ficheroResultados = new PrintWriter("Resultados.txt");
         for (Datos resultado : resultados) {
             System.out.println("Guardando datos...");
