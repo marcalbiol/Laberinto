@@ -46,8 +46,8 @@ public class Datos {
     @Override
     public String toString() {
         return "Numero de partida : " + cantidadPartidas +
-                "\n Movimientos restantes : " + numeroMovimientos +
-                "\n Partida terminada " + gameEnd +
-                "\n Dificultad " + nivel + " ";
+                "\nMovimientos restantes : " + numeroMovimientos +
+                "\nPartida terminada : " + gameEnd +
+                "\nDificultad : " + nivel + " ";
     }
 }

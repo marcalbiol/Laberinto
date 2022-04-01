@@ -1,27 +1,41 @@
 public enum Level {
-        EASY(1, "facil", 3), MEDIUM(2, "medio", 100), DIFFICULT(3, "dificl", 100);
+    EASY(1, "facil", 10, new String[][]{{Propiedades.JUGADOR, Propiedades.WALL, Propiedades.WALL}, {Propiedades.SECRET, Propiedades.WALL, Propiedades.WALL}, {Propiedades.SALIDA, Propiedades.WALL, Propiedades.WALL}}),
+    MEDIUM(2, "medio", 100, new String[][]{{Propiedades.JUGADOR, Propiedades.WALL, Propiedades.WALL}, {Propiedades.SECRET, Propiedades.WALL, Propiedades.WALL}, {Propiedades.SALIDA, Propiedades.WALL, Propiedades.WALL}}),
+    DIFFICULT(3, "dificl", 100, new String[][]{{Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.GIFT1, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.GIFT2, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.SECRET, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.WALL, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.PASO, Propiedades.WALL}, {Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.SALIDA, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL, Propiedades.WALL},
+    });
 
-        private final int level;
-        private final String name;
-        private final int movements;
 
-        Level(int level, String name, int movements) {
-            this.level = level;
-            this.name = name;
-            this.movements = movements;
-        }
+    private final int level;
+    private final String name;
+    private final int movements;
+    private String[][] laberinto;
 
-        public int getLevel() {
-            return level;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getMovements() {
-            return movements;
-        }
+    Level(int level, String name, int movements, String[][] laberinto) {
+        this.level = level;
+        this.name = name;
+        this.movements = movements;
+        this.laberinto = laberinto;
     }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getMovements() {
+        return movements;
+    }
+
+    public String[][] getLaberinto() {
+        return laberinto;
+    }
+
+    public void setLaberinto(String[][] laberinto) {
+        this.laberinto = laberinto;
+    }
+}
 
 

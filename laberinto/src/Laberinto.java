@@ -1,74 +1,47 @@
-// TODO OPTIMIZAR LABERINTOS. RESULTADOS, SALIDAS, GUARDAR EN FICHERO RESULTADO TODO OK.
-// TODO MEJORA DE LABERINTOS, ENTRADAS SECRETAS Y SALIDA.
-/*
- - Revisar:
-    * https://www.w3schools.com/java/java_enums.asp
-    * https://stackoverflow.com/a/44654387/12508080
- */
-
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
+// TODO FINALIZAR 1 - 2 LABERINTO, PARTIDA PERSONALIZADA CARGANDO ARCHIVO,
 public class Laberinto {
-    public static final char WALL = '▒';
-    public static final char JUGADOR = 'J';
-    public static final char SALIDA = 'S';
-    public static final char PASO = ' ';
-    public static final char SECRET = 'E';
 
     public static void main(String[] args) throws FileNotFoundException {
         Scanner teclado = new Scanner(System.in);
-        // elementos del laberinto
-        Level nivel = null;
-        System.out.println("Cuantas partidas vas a jugar : ");
-        int partidas = teclado.nextInt();
 
-        // arraylist donde se guardaran los resultados
+        // Arraylist donde se guardaran los resultados
         ArrayList<Datos> resultados = new ArrayList<>();
         boolean playing = true;
 
-        // indica cuando termina la partida + variables para los resultados finales
+        // Boolean que indica cuando termina la partida + variables para los resultados finales
         boolean gameEnd = false;
         int remainingMov = 0;
         int cantidadPartidas = 0;
 
-        // MENU
+        /* MENU */
         while (playing) {
             String menu;
             do {
-                System.out.println("Elige que desea hacer : \n"
-                        + "1. Jugar \n"
-                        + "2. Resultado de partidas \n"
-                        + "3. Salir ");
+                System.out.println("Elige que quieres hacer : \n" + "1. Jugar \n" + "2. Resultado de partidas \n" + "3. Salir ");
                 menu = teclado.next();
-            } while ((menu.equalsIgnoreCase("1") && menu.equalsIgnoreCase("2")
-                    && menu.equalsIgnoreCase("3")) && partidas != 0);
-            gameEnd = true;
-
+                System.out.println();
+            } while (!(menu.equalsIgnoreCase("1") || menu.equalsIgnoreCase("2") || menu.equalsIgnoreCase("3")));
+            
             String dificultad;
             switch (menu) {
                 case "1":
                     do {
-                        System.out.println("Escoge la dificultad que quieres jugar : \n"
-                                + "1. Facil \n" + "2. Intermedio \n"
-                                + "3. Dificil");
+                        System.out.println("Escoge la dificultad que quieres jugar : \n" + "1. Facil \n" + "2. Intermedio \n" + "3. Dificil");
                         dificultad = teclado.next();
+                        System.out.println();
                     } while (!(dificultad.equalsIgnoreCase("1") || dificultad.equalsIgnoreCase("2") || dificultad.equalsIgnoreCase("3")));
 
-                    // Variables de movimiento en el laberinto
-                    boolean laberintoSalida = true;
-                    // parte especial
-                    boolean doors = false;
-                    //posicion jugador
-                    int movColumna = 0;
+                    //posiciones del jugador
                     int movFila = 0;
-                    // salidas laberintos
-                    int filEndgame = 0;
-                    int colEndgame = 0;
-                    char[][] laberinto = null;
-
+                    int movColumna = 0;
+                    Level nivel = null;
+                    String[][] laberinto = null;
                     // diferentes niveles del laberinto
                     switch (dificultad) {
                         case "1":
@@ -76,203 +49,141 @@ public class Laberinto {
                             System.out.println("Partida numero " + cantidadPartidas);
                             enunciadoPartida(Level.EASY);
                             nivel = Level.EASY;
+                            laberinto = Level.EASY.getLaberinto();
                             remainingMov = Level.EASY.getMovements();
-                            // TODO HACER LABERINTO MANUAL.
-                            // definimos donde termina el laberinto.
-                            filEndgame = 2;
-                            colEndgame = 0;
-                            laberinto = new char[][]{{JUGADOR, WALL, WALL}, {PASO, WALL, WALL}, {SALIDA, WALL, WALL}};
+
+                            // llamamos a la funcion para que guarde el laberinto en el fichero
+                            ficheroLaberinto(laberinto);
                             break;
                         case "2":
                             cantidadPartidas++;
                             System.out.println("Partida numero : " + cantidadPartidas);
                             enunciadoPartida(Level.MEDIUM);
-                            remainingMov = Level.MEDIUM.getMovements();
                             nivel = Level.MEDIUM;
-                            filEndgame = 19;
-                            colEndgame = 12;
-                            laberinto = new char[][]{{JUGADOR, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
-                                    {PASO, PASO, PASO, PASO, PASO, WALL, WALL, PASO, PASO, WALL, WALL, WALL, WALL, WALL, PASO, PASO, WALL, WALL, WALL, WALL},
-                                    {WALL, PASO, PASO, WALL, PASO, WALL, WALL, PASO, WALL, WALL, WALL, PASO, WALL, WALL, WALL, PASO, PASO, PASO, WALL, WALL},
-                                    {WALL, PASO, PASO, PASO, PASO, WALL, WALL, PASO, WALL, PASO, PASO, PASO, WALL, WALL, WALL, PASO, PASO, PASO, PASO, WALL},
-                                    {WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL, WALL, PASO, PASO, PASO, WALL, WALL, WALL, PASO, PASO, PASO, PASO, WALL},
-                                    {WALL, WALL, WALL, WALL, PASO, WALL, PASO, WALL, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
-                                    {WALL, PASO, PASO, PASO, PASO, WALL, PASO, WALL, WALL, PASO, PASO, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
-                                    {WALL, PASO, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL, WALL, PASO, WALL, PASO, PASO, PASO, PASO, PASO, WALL, WALL},
-                                    {WALL, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, WALL, WALL, WALL, WALL, WALL, WALL},
-                                    {WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
-                                    {WALL, PASO, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, PASO, PASO, PASO, WALL, PASO, PASO, PASO, PASO, PASO, WALL},
-                                    {WALL, PASO, WALL, PASO, PASO, PASO, PASO, WALL, WALL, WALL, WALL, WALL, PASO, PASO, PASO, WALL, WALL, WALL, WALL, WALL},
-                                    {WALL, PASO, PASO, PASO, WALL, WALL, PASO, WALL, WALL, PASO, PASO, PASO, PASO, WALL, PASO, PASO, PASO, PASO, PASO, WALL},
-                                    {WALL, WALL, WALL, WALL, PASO, PASO, PASO, WALL, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
-                                    {WALL, PASO, PASO, PASO, PASO, PASO, PASO, PASO, WALL, WALL, WALL, WALL, PASO, PASO, PASO, PASO, PASO, WALL, WALL, WALL},
-                                    {WALL, WALL, PASO, WALL, WALL, WALL, WALL, PASO, PASO, PASO, PASO, WALL, WALL, WALL, WALL, WALL, PASO, PASO, WALL, WALL},
-                                    {WALL, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, PASO, PASO, WALL, WALL},
-                                    {WALL, WALL, PASO, PASO, PASO, WALL, WALL, WALL, WALL, PASO, PASO, PASO, PASO, WALL, WALL, WALL, PASO, WALL, PASO, WALL},
-                                    {WALL, WALL, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, PASO, PASO, PASO, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, SALIDA, PASO, PASO, PASO, WALL, WALL, WALL, WALL}
-                            };
+                            laberinto = Level.MEDIUM.getLaberinto();
+                            remainingMov = Level.MEDIUM.getMovements();
+
+                            // llamamos a la funcion para que guarde el laberinto en el fichero
+                            ficheroLaberinto(laberinto);
                             break;
                         case "3":
                             // TODO CAMBIAR POSICIONES LABERINTO MAS DIFICIL/LARGO
-                            doors = true;
+
                             cantidadPartidas++;
                             System.out.println("Partida numero : " + cantidadPartidas);
                             enunciadoPartida(Level.DIFFICULT);
-                            remainingMov = Level.DIFFICULT.getMovements();
                             nivel = Level.DIFFICULT;
-                            // definimos salida del laberinto
-                            filEndgame = 19;
-                            colEndgame = 12;
+                            laberinto = Level.DIFFICULT.getLaberinto();
+                            remainingMov = Level.DIFFICULT.getMovements();
 
-                            laberinto = new char[][]{{JUGADOR, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
-                                    {PASO, PASO, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
-                                    {WALL, PASO, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
-                                    {WALL, PASO, PASO, PASO, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL, PASO, WALL, WALL},
-                                    {WALL, WALL, WALL, WALL, PASO, WALL, PASO, WALL, WALL, WALL, PASO, WALL, WALL, PASO, WALL, WALL, PASO, PASO, WALL, WALL},
-                                    {WALL, WALL, WALL, WALL, PASO, WALL, PASO, WALL, WALL, WALL, PASO, WALL, WALL, PASO, WALL, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, PASO, PASO, PASO, PASO, WALL, PASO, WALL, WALL, WALL, PASO, WALL, WALL, PASO, WALL, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, PASO, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL, PASO, WALL, WALL, PASO, WALL, WALL, PASO, PASO, WALL, WALL},
-                                    {WALL, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, PASO, WALL},
-                                    {WALL, WALL, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, PASO, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, PASO, WALL, PASO, PASO, PASO, PASO, WALL, WALL, WALL, WALL, PASO, PASO, PASO, WALL, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, PASO, PASO, PASO, WALL, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, WALL, PASO, WALL, WALL, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, WALL, PASO, PASO, PASO, PASO, PASO, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, WALL, PASO, WALL, WALL, WALL, WALL, PASO, PASO, PASO, PASO, WALL, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, WALL, PASO, PASO, PASO, WALL, WALL, WALL, WALL, PASO, PASO, PASO, PASO, WALL, WALL, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, WALL, WALL, PASO, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, PASO, PASO, WALL, WALL, PASO, WALL, WALL, WALL},
-                                    {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, SALIDA, PASO, PASO, PASO, WALL, WALL, WALL}
-                            };
+                            // llamamos a la funcion para que guarde el laberinto en el fichero
+                            ficheroLaberinto(laberinto);
                             break;
                     }
-                    laberinto[movFila][movColumna] = JUGADOR;
+
+                    laberinto[movFila][movColumna] = Propiedades.JUGADOR;
+
                     // mostramos el laberinto en cada movimiento
+                    boolean laberintoSalida = true;
                     String mover;
                     while (laberintoSalida) {
-
                         for (int i = 0; i < laberinto.length; i++) {
                             for (int c = 0; c < laberinto[i].length; c++) {
                                 System.out.print(laberinto[i][c] + " ");
                             }
-                            System.out.println("");
+                            System.out.println();
                         }
 
                         // se le preguntara al usuario su movimiento mientras le queden movimientos por hacer.
                         if (remainingMov != 0) {
-                            System.out.println("Mueve : \n" + "Te quedan " + remainingMov + " intentos.");
+                            System.out.println("Mueve : \n" + "Te quedan " + remainingMov + " movimientos.");
                             mover = teclado.next();
-                            laberinto[movFila][movColumna] = PASO;
+                            System.out.println();
+                            laberinto[movFila][movColumna] = Propiedades.PASO;
 
                             // Condiciones del jugador dentro del laberinto. Controlamos si se encuentra un muro
                             if (mover.equalsIgnoreCase("q")) {
-                                partidas--;
                                 laberintoSalida = false;
                                 gameEnd = false;
                                 System.out.println("Has dejado de jugar la partida actual.");
-                            } else if (mover.equalsIgnoreCase("s") && movFila + 1 != laberinto.length && laberinto[movFila + 1][movColumna] != WALL) {
+                            } else if (mover.equalsIgnoreCase("s") && movFila + 1 != laberinto.length && laberinto[movFila + 1][movColumna] != Propiedades.WALL) {
                                 movFila += 1;
                                 remainingMov--;
-                            } else if (mover.equalsIgnoreCase("w") && movFila - 1 != -1 && laberinto[movFila - 1][movColumna] != WALL) {
+                            } else if (mover.equalsIgnoreCase("w") && movFila - 1 != -1 && laberinto[movFila - 1][movColumna] != Propiedades.WALL) {
                                 movFila -= 1;
                                 remainingMov--;
-                            } else if (mover.equalsIgnoreCase("d") && movColumna + 1 != laberinto.length && laberinto[movFila][movColumna + 1] != WALL) {
+                            } else if (mover.equalsIgnoreCase("d") && movColumna + 1 != laberinto.length && laberinto[movFila][movColumna + 1] != Propiedades.WALL) {
                                 movColumna += 1;
                                 remainingMov--;
-                            } else if (mover.equalsIgnoreCase("a") && movColumna - 1 != -1 && laberinto[movFila][movColumna - 1] != WALL) {
+                            } else if (mover.equalsIgnoreCase("a") && movColumna - 1 != -1 && laberinto[movFila][movColumna - 1] != Propiedades.WALL) {
                                 movColumna -= 1;
                                 remainingMov--;
                             } else {
                                 remainingMov--;
                             }
 
-                            /* JUEGO OCULTO DE LA DIFICULTAD 3, EL USUARIO TENDRA QUE BUSCAR POR "HABITACIONES" LA COMBINACION
-                               DE NUMEROS PARA LOGRAR ESCAPAR DEL LABERINTO. NO SIEMPRE ENCUENTRA LO QUE NECESITA */
 
-                            if (doors) {
-                                // POSICIONES OCULTAS.
-                                // consigue numero "1"
-                                if ((laberinto[movFila][movColumna] = JUGADOR) == laberinto[7][11]) {
-                                    System.out.println("Has encontrado el numero secreto : 1 \n"
-                                            + "combinalo con otro numero para desbloquear la puerta \n"
-                                            + "y conseguir salir del laberinto");
-                                }
-                                // consigue numero 2
-                                if ((laberinto[movFila][movColumna] = JUGADOR) == laberinto[11][12]) {
-                                    System.out.println("Has encontrado el numero secreto : 6 \n"
-                                            + "combinalo con otro numero para desbloquear la puerta\n"
-                                            + "y conseguir salir del laberinto");
-                                }
-                                // resta movimientos
-                                if ((laberinto[movFila][movColumna] = JUGADOR) == laberinto[4][7]) {
-                                    remainingMov = remainingMov - 30;
-                                    System.out.println("Aqui no hay nada bueno... se te restaran -30 movimientos; te quedan " + remainingMov + " movimientos");
-                                }
-
-                                // PUERTAS SECRETAS
-                                // intento de salida = termina el juego.
-                                if ((laberinto[movFila][movColumna] = JUGADOR) == laberinto[19][14]) {
-                                    System.out.println("Te has equivocado de camino... Hasta luego");
-                                    partidas--;
-                                    laberintoSalida = false;
-                                    gameEnd = false;
-                                }
-                                // puerta secreta donde se introduce la clave
-                                if ((laberinto[movFila][movColumna] = JUGADOR) == (laberinto[9][3])) {
-                                    String secretNumber;
-                                    do {
-                                        System.out.println("Has encontrado una puerta secreta... \n"
-                                                + "Introduce un numero.");
-                                        secretNumber = teclado.next();
-                                        if (secretNumber.equalsIgnoreCase("61")) {
-                                            System.out.println("Numero correcto, puedes pasar");
-                                            doors = false;
-                                        } else {
-                                            System.out.println("Incorrecto.");
-                                        }
-                                    } while (!(secretNumber.equalsIgnoreCase("61")));
-
-                                }
-
+                            // Regalo
+                            int findNumber;
+                            if(laberinto[movFila][movColumna] == (Propiedades.GIFT1)){
+                                findNumber = 1;
+                                textoEncontrar(findNumber);
+                            }
+                            if(laberinto[movFila][movColumna] == (Propiedades.GIFT2)){
+                                findNumber = 6;
+                                textoEncontrar(findNumber);
                             }
 
+                            // en caso de que llegue a la puerta secreta
+                            if (laberinto[movFila][movColumna] == (Propiedades.SECRET)) {
+                                int door_code;
+                                do {
+                                    System.out.println("Has llegado a la puerta secreta \n"
+                                            + "Introduce el codigo");
+                                    door_code = teclado.nextInt();
+                                    System.out.println();
+                                    if (door_code == 61) {
+                                        System.out.println("Codigo correcto, puedes pasar");
+                                    } else {
+                                        System.out.println("Codigo incorrecto");
+                                    }
+                                } while (door_code != 61);
+                            }
 
-                            // CONDICIONES QUE FUNCIONAN EN LOS 3 NIVELES.
-                            // TODO HACER QUE COINCIDAN EN POSICION,-FUNCIONA DEFINIENDO LA SALIDA ARRIBA.
-                            if ((laberinto[movFila][movColumna] = JUGADOR) == (laberinto[filEndgame][colEndgame])) {
-                                partidas--;
+                            // encuentra la salida
+                            if ((laberinto[movFila][movColumna] == (Propiedades.SALIDA))) {
                                 System.out.println("Has encontrado la salida. \n" + "Te han sobrado : " + remainingMov + " intentos.");
                                 laberintoSalida = false;
                                 gameEnd = true;
                             }
+
+                            laberinto[movFila][movColumna] = Propiedades.JUGADOR;
+
                             // condicion que se cumple cuando se queda sin intentos y no ha terminado el laberinto
                         } else {
-                            partidas--;
                             laberintoSalida = false;
                             gameEnd = false;
-                            System.out.println("Te has quedados sin intentos \n"
-                                    + "No has terminado el laberinto");
+                            System.out.println("Te has quedados sin intentos \n" + "No has terminado el laberinto");
                         }
-
                     }
-                    laberinto[movFila][movColumna] = JUGADOR;
 
-                    System.out.println("Partidas restantes por jugar : " + partidas + "\nQuieres volver a jugar? si/no");
+                    System.out.println("Quieres volver a jugar? \n" + "Si / No");
                     mover = teclado.next();
-                    if (mover.equalsIgnoreCase("no") || partidas == 0) {
+                    System.out.println();
+                    if (mover.equalsIgnoreCase("no")) {
                         playing = false;
                         System.out.println("Juego terminado.");
                         System.out.println("Se han jugado un total de " + cantidadPartidas + " partidas");
                     }
+
+                    // Guardamos la informacion de las partidas un ArrayList
                     Datos partidasFinalizadas = new Datos(cantidadPartidas, remainingMov, gameEnd, nivel);
                     resultados.add(partidasFinalizadas);
                     break;
                 case "2":
                     if (cantidadPartidas == 0) {
                         System.out.println("Todavia no se ha jugado ninguna partida.");
-                        System.out.println("");
+                        System.out.println();
                     } else {
                         playing = false;
                         System.out.println("Se han jugado un total de " + cantidadPartidas + " partidas");
@@ -285,14 +196,27 @@ public class Laberinto {
             }
         }
 
-        // Llamada funcion
-        escribirFichero(resultados);
+        // Llamada funcion para guardar los resultados de la partida
+        ficheroResultado(resultados);
     }
 
-    public static void escribirFichero(ArrayList<Datos> resultados) throws FileNotFoundException {
+    public static void textoEncontrar(int findNumber) {
+        System.out.println("Parece que aqui hay algo escondido... \n" + "Has encontrado el numero numero : " + findNumber + "\ncombinalo con otro numero para desbloquear la puerta\n" + "y conseguir salir del laberinto");
+    }
+
+    // TODO solo guard el ultimo laberinto
+    public static void ficheroLaberinto(String[][] laberinto) throws FileNotFoundException {
+        // creamos el fichero donde se guardara el laberinto
+        PrintWriter ficheroLaberintos = new PrintWriter("Laberintos.txt");
+        ficheroLaberintos.print(Arrays.deepToString(laberinto));
+        ficheroLaberintos.close();
+
+    }
+
+    public static void ficheroResultado(ArrayList<Datos> resultados) throws FileNotFoundException {
         PrintWriter ficheroResultados = new PrintWriter("Resultados.txt");
+        System.out.println("Guardando datos...");
         for (Datos resultado : resultados) {
-            System.out.println("Guardando datos...");
             System.out.println(resultado);
             ficheroResultados.println(resultado);
         }
@@ -300,12 +224,7 @@ public class Laberinto {
     }
 
     public static void enunciadoPartida(Level level) {
-        System.out.println("Has elegido el nivel " + level.getName() +
-                ".\nSe te creara el laberinto. \n" +
-                "Utiliza W, A, S, D para moverte e intentar llegar al final;" +
-                " o Q si te quieres rendir y abandonar partida\n" +
-                "Tienes " + level.getMovements() + " movimientos para intentar salir del laberinto. \n" +
-                "Pulsa q para salir de la partida.");
+        System.out.println("Has elegido el nivel " + level.getName() + ".\nSe te creara el laberinto. \n" + "Utiliza W, A, S, D para moverte e intentar llegar al final;" + " o Q si te quieres rendir y abandonar partida\n" + "Tienes " + level.getMovements() + " movimientos para intentar salir del laberinto. \n" + "Pulsa q para salir de la partida.");
     }
 
 }
