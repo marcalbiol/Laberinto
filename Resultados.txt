@@ -1,8 +1,5 @@
-Numero de partida : 1
-Movimientos restantes : 99
+Numero de partida : 5
+Movimientos restantes : 20
 Partida terminada : false
-Dificultad : MEDIUM 
-Numero de partida : 2
-Movimientos restantes : 85
-Partida terminada : false
-Dificultad : DIFFICULT 
+Dificultad : EASY 
+

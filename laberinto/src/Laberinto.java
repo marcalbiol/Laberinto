@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-// TODO FINALIZAR 1 - 2 LABERINTO, PARTIDA PERSONALIZADA CARGANDO ARCHIVO,
+// TODO PARTIDA PERSONALIZADA CARGANDO ARCHIVO, CODE CLEAN
 public class Laberinto {
 
     public static void main(String[] args) throws FileNotFoundException {
         Scanner teclado = new Scanner(System.in);
 
         // Arraylist donde se guardaran los resultados
-        ArrayList<Datos> resultados = new ArrayList<>();
+        ArrayList<Register> resultados = new ArrayList<>();
         boolean playing = true;
 
         // Boolean que indica cuando termina la partida + variables para los resultados finales
         boolean gameEnd = false;
-        int remainingMov = 0;
+        int numeroMovimientos = 0;
         int cantidadPartidas = 0;
 
         /* MENU */
@@ -27,15 +27,15 @@ public class Laberinto {
                 menu = teclado.next();
                 System.out.println();
             } while (!(menu.equalsIgnoreCase("1") || menu.equalsIgnoreCase("2") || menu.equalsIgnoreCase("3")));
-            
+
             String dificultad;
             switch (menu) {
                 case "1":
                     do {
-                        System.out.println("Escoge la dificultad que quieres jugar : \n" + "1. Facil \n" + "2. Intermedio \n" + "3. Dificil");
+                        System.out.println("Escoge la dificultad que quieres jugar : \n" + "1. Facil \n" + "2. Intermedio \n" + "3. Dificil \n" + "4. Personalizado");
                         dificultad = teclado.next();
                         System.out.println();
-                    } while (!(dificultad.equalsIgnoreCase("1") || dificultad.equalsIgnoreCase("2") || dificultad.equalsIgnoreCase("3")));
+                    } while (!(dificultad.equalsIgnoreCase("1") || dificultad.equalsIgnoreCase("2") || dificultad.equalsIgnoreCase("3") || dificultad.equalsIgnoreCase("4")));
 
                     //posiciones del jugador
                     int movFila = 0;
@@ -50,7 +50,7 @@ public class Laberinto {
                             enunciadoPartida(Level.EASY);
                             nivel = Level.EASY;
                             laberinto = Level.EASY.getLaberinto();
-                            remainingMov = Level.EASY.getMovements();
+                            numeroMovimientos = Level.EASY.getMovements();
 
                             // llamamos a la funcion para que guarde el laberinto en el fichero
                             ficheroLaberinto(laberinto);
@@ -61,23 +61,31 @@ public class Laberinto {
                             enunciadoPartida(Level.MEDIUM);
                             nivel = Level.MEDIUM;
                             laberinto = Level.MEDIUM.getLaberinto();
-                            remainingMov = Level.MEDIUM.getMovements();
+                            numeroMovimientos = Level.MEDIUM.getMovements();
 
                             // llamamos a la funcion para que guarde el laberinto en el fichero
                             ficheroLaberinto(laberinto);
                             break;
                         case "3":
-                            // TODO CAMBIAR POSICIONES LABERINTO MAS DIFICIL/LARGO
-
                             cantidadPartidas++;
                             System.out.println("Partida numero : " + cantidadPartidas);
                             enunciadoPartida(Level.DIFFICULT);
                             nivel = Level.DIFFICULT;
                             laberinto = Level.DIFFICULT.getLaberinto();
-                            remainingMov = Level.DIFFICULT.getMovements();
+                            numeroMovimientos = Level.DIFFICULT.getMovements();
 
                             // llamamos a la funcion para que guarde el laberinto en el fichero
                             ficheroLaberinto(laberinto);
+                            break;
+
+                        case "4":
+                            cantidadPartidas++;
+                            System.out.println("Partida numero : " + cantidadPartidas);
+
+                        // TODO
+
+
+
                             break;
                     }
 
@@ -95,10 +103,10 @@ public class Laberinto {
                         }
 
                         // se le preguntara al usuario su movimiento mientras le queden movimientos por hacer.
-                        if (remainingMov != 0) {
-                            System.out.println("Mueve : \n" + "Te quedan " + remainingMov + " movimientos.");
+                        if (numeroMovimientos != 0) {
+                            System.out.println("Quedan " + numeroMovimientos + " movimientos restantes");
+                            System.out.print("Mueve : ");
                             mover = teclado.next();
-                            System.out.println();
                             laberinto[movFila][movColumna] = Propiedades.PASO;
 
                             // Condiciones del jugador dentro del laberinto. Controlamos si se encuentra un muro
@@ -108,51 +116,50 @@ public class Laberinto {
                                 System.out.println("Has dejado de jugar la partida actual.");
                             } else if (mover.equalsIgnoreCase("s") && movFila + 1 != laberinto.length && laberinto[movFila + 1][movColumna] != Propiedades.WALL) {
                                 movFila += 1;
-                                remainingMov--;
+                                numeroMovimientos--;
                             } else if (mover.equalsIgnoreCase("w") && movFila - 1 != -1 && laberinto[movFila - 1][movColumna] != Propiedades.WALL) {
                                 movFila -= 1;
-                                remainingMov--;
+                                numeroMovimientos--;
                             } else if (mover.equalsIgnoreCase("d") && movColumna + 1 != laberinto.length && laberinto[movFila][movColumna + 1] != Propiedades.WALL) {
                                 movColumna += 1;
-                                remainingMov--;
+                                numeroMovimientos--;
                             } else if (mover.equalsIgnoreCase("a") && movColumna - 1 != -1 && laberinto[movFila][movColumna - 1] != Propiedades.WALL) {
                                 movColumna -= 1;
-                                remainingMov--;
+                                numeroMovimientos--;
                             } else {
-                                remainingMov--;
+                                numeroMovimientos--;
                             }
 
 
                             // Regalo
                             int findNumber;
-                            if(laberinto[movFila][movColumna] == (Propiedades.GIFT1)){
+                            if (laberinto[movFila][movColumna] == (Propiedades.GIFT1)) {
                                 findNumber = 1;
                                 textoEncontrar(findNumber);
                             }
-                            if(laberinto[movFila][movColumna] == (Propiedades.GIFT2)){
+                            if (laberinto[movFila][movColumna] == (Propiedades.GIFT2)) {
                                 findNumber = 6;
                                 textoEncontrar(findNumber);
                             }
 
                             // en caso de que llegue a la puerta secreta
                             if (laberinto[movFila][movColumna] == (Propiedades.SECRET)) {
-                                int door_code;
+                                int doorCode;
                                 do {
-                                    System.out.println("Has llegado a la puerta secreta \n"
-                                            + "Introduce el codigo");
-                                    door_code = teclado.nextInt();
+                                    System.out.println("Has llegado a la puerta secreta \n" + "Introduce el codigo");
+                                    doorCode = teclado.nextInt();
                                     System.out.println();
-                                    if (door_code == 61) {
+                                    if (doorCode == 61) {
                                         System.out.println("Codigo correcto, puedes pasar");
                                     } else {
                                         System.out.println("Codigo incorrecto");
                                     }
-                                } while (door_code != 61);
+                                } while (doorCode != 61);
                             }
 
                             // encuentra la salida
                             if ((laberinto[movFila][movColumna] == (Propiedades.SALIDA))) {
-                                System.out.println("Has encontrado la salida. \n" + "Te han sobrado : " + remainingMov + " intentos.");
+                                System.out.println("Has encontrado la salida. \n" + "Te han sobrado : " + numeroMovimientos + " intentos.");
                                 laberintoSalida = false;
                                 gameEnd = true;
                             }
@@ -167,9 +174,13 @@ public class Laberinto {
                         }
                     }
 
-                    System.out.println("Quieres volver a jugar? \n" + "Si / No");
-                    mover = teclado.next();
+                    do {
+                        System.out.print("Quieres volver a jugar?");
+                        mover = teclado.next();
+                    } while (!mover.equalsIgnoreCase("si") && (!mover.equalsIgnoreCase("no")));
+
                     System.out.println();
+
                     if (mover.equalsIgnoreCase("no")) {
                         playing = false;
                         System.out.println("Juego terminado.");
@@ -177,7 +188,7 @@ public class Laberinto {
                     }
 
                     // Guardamos la informacion de las partidas un ArrayList
-                    Datos partidasFinalizadas = new Datos(cantidadPartidas, remainingMov, gameEnd, nivel);
+                    Register partidasFinalizadas = new Register(cantidadPartidas, numeroMovimientos, gameEnd, nivel);
                     resultados.add(partidasFinalizadas);
                     break;
                 case "2":
@@ -204,7 +215,11 @@ public class Laberinto {
         System.out.println("Parece que aqui hay algo escondido... \n" + "Has encontrado el numero numero : " + findNumber + "\ncombinalo con otro numero para desbloquear la puerta\n" + "y conseguir salir del laberinto");
     }
 
-    // TODO solo guard el ultimo laberinto
+
+
+
+
+    // TODO solo guarda el ultimo laberinto
     public static void ficheroLaberinto(String[][] laberinto) throws FileNotFoundException {
         // creamos el fichero donde se guardara el laberinto
         PrintWriter ficheroLaberintos = new PrintWriter("Laberintos.txt");
@@ -213,10 +228,10 @@ public class Laberinto {
 
     }
 
-    public static void ficheroResultado(ArrayList<Datos> resultados) throws FileNotFoundException {
+    public static void ficheroResultado(ArrayList<Register> resultados) throws FileNotFoundException {
         PrintWriter ficheroResultados = new PrintWriter("Resultados.txt");
-        System.out.println("Guardando datos...");
-        for (Datos resultado : resultados) {
+        System.out.println("Guardando datos..." + "\n");
+        for (Register resultado : resultados) {
             System.out.println(resultado);
             ficheroResultados.println(resultado);
         }
@@ -224,7 +239,7 @@ public class Laberinto {
     }
 
     public static void enunciadoPartida(Level level) {
-        System.out.println("Has elegido el nivel " + level.getName() + ".\nSe te creara el laberinto. \n" + "Utiliza W, A, S, D para moverte e intentar llegar al final;" + " o Q si te quieres rendir y abandonar partida\n" + "Tienes " + level.getMovements() + " movimientos para intentar salir del laberinto. \n" + "Pulsa q para salir de la partida.");
+        System.out.println("Has elegido el nivel " + level.getName() + ".\nSe te creara el laberinto. \n" + "Utiliza W, A, S, D para moverte e intentar llegar al final;" + "o Q si te quieres rendir y abandonar partida\n" + "Tienes " + level.getMovements() + " movimientos para intentar salir del laberinto. \n" + "Pulsa q para salir de la partida.");
     }
 
 }
